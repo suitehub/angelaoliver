@@ -34,18 +34,24 @@ jobs:
 
       - name: Prepare GitHub Pages artifact
         run: |
-          if [ -d ".output/public/angelaoliver" ]; then
-            cp -r .output/public/angelaoliver/* .output/public/
-            rm -rf .output/public/angelaoliver
+          OUT=".output/public"
+          if [ -d "dist/client" ]; then
+            rm -rf "$OUT"
+            mkdir -p "$OUT"
+            cp -r dist/client/* "$OUT/"
           fi
-          if [ -f ".output/public/index.html" ] && [ ! -f ".output/public/404.html" ]; then
-            cp .output/public/index.html .output/public/404.html
+          if [ ! -f "$OUT/index.html" ]; then
+            node -e "
+              const fs=require('fs'); const p='$OUT/assets';
+              const files=fs.existsSync(p)?fs.readdirSync(p):[];
+              const css=files.filter(f=>f.endsWith('.css')).map(f=>'<link rel=\"stylesheet\" href=\"/angelaoliver/assets/'+f+'\">').join('\n');
+              const js=files.filter(f=>f.endsWith('.js')).map(f=>'<script type=\"module\" src=\"/angelaoliver/assets/'+f+'\"></script>').join('\n');
+              const html='<!doctype html><html lang=\"pt-BR\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/><title>Angela Oliver</title><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&display=swap\">'+css+'</head><body><div id=\"root\"></div>'+js+'</body></html>';
+              fs.writeFileSync('$OUT/index.html', html);
+            "
           fi
-          if [ ! -f ".output/public/index.html" ] && [ -d "dist/client" ]; then
-            mkdir -p .output/public
-            cp -r dist/client/* .output/public/
-          fi
-          test -f .output/public/index.html
+          cp "$OUT/index.html" "$OUT/404.html"
+          test -f "$OUT/index.html"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
