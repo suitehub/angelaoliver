@@ -14,7 +14,7 @@ export default defineConfig({
     base: "/angelaoliver/",
   },
   nitro: {
-    preset: "github_pages",
+    preset: "static",
   },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
@@ -23,6 +23,8 @@ export default defineConfig({
     prerender: {
       enabled: true,
       crawlLinks: true,
+      pages: ["/angelaoliver/"],
+      filter: ({ path }) => path.startsWith("/angelaoliver"),
     },
   },
 });
