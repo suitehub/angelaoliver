@@ -21,9 +21,6 @@ export default defineConfig({
     },
   } as any,
   tanstackStart: {
-    router: {
-      basepath: "/",
-    },
     server: { entry: "server" },
     prerender: {
       enabled: true,
