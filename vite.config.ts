@@ -13,9 +13,7 @@ export default defineConfig({
   vite: {
     base: "/angelaoliver/",
   },
-  nitro: {
-    preset: "static",
-  },
+  nitro: false,
   tanstackStart: {
     spa: {
       enabled: true,
