@@ -15,18 +15,10 @@ export default defineConfig({
   },
   nitro: {
     preset: "static",
-    prerender: {
-      routes: ["/", "/angelaoliver/", "/angelaoliver/angelaoliver/"],
-      failOnError: false,
-    },
-  } as any,
+  },
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
-    prerender: {
+    spa: {
       enabled: true,
-      crawlLinks: true,
     },
   },
 });
