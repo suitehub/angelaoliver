@@ -16,7 +16,7 @@ export default defineConfig({
   nitro: {
     preset: "static",
     prerender: {
-      routes: ["/", "/angelaoliver/"],
+      routes: ["/", "/angelaoliver/", "/angelaoliver/angelaoliver/"],
       failOnError: false,
     },
   } as any,
