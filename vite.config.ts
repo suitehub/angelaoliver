@@ -16,7 +16,7 @@ export default defineConfig({
   nitro: {
     preset: "static",
     prerender: {
-      routes: ["/angelaoliver/"],
+      routes: ["/"],
     },
   } as any,
   tanstackStart: {
