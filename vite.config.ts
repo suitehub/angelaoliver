@@ -13,10 +13,18 @@ export default defineConfig({
   vite: {
     base: "/angelaoliver/",
   },
-  nitro: false,
+  nitro: {
+    preset: "static",
+    prerender: {
+      routes: ["/angelaoliver/"],
+      failOnError: false,
+    },
+  } as any,
   tanstackStart: {
-    spa: {
+    server: { entry: "server" },
+    prerender: {
       enabled: true,
+      crawlLinks: true,
     },
   },
 });

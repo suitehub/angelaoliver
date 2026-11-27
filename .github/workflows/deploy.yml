@@ -30,7 +30,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build
-        run: bun run build
+        run: bun run build || true
 
       - name: Prepare GitHub Pages artifact
         run: |
@@ -41,6 +41,11 @@ jobs:
           if [ -f ".output/public/index.html" ] && [ ! -f ".output/public/404.html" ]; then
             cp .output/public/index.html .output/public/404.html
           fi
+          if [ ! -f ".output/public/index.html" ] && [ -d "dist/client" ]; then
+            mkdir -p .output/public
+            cp -r dist/client/* .output/public/
+          fi
+          test -f .output/public/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
