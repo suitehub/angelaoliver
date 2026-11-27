@@ -15,7 +15,10 @@ export default defineConfig({
   },
   nitro: {
     preset: "static",
-  },
+    prerender: {
+      routes: ["/angelaoliver/"],
+    },
+  } as any,
   tanstackStart: {
     router: {
       basepath: "/angelaoliver",
