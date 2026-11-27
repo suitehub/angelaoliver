@@ -16,11 +16,14 @@ export default defineConfig({
   nitro: {
     preset: "static",
     prerender: {
-      routes: ["/angelaoliver/"],
+      routes: ["/"],
       failOnError: false,
     },
   } as any,
   tanstackStart: {
+    router: {
+      basepath: "/",
+    },
     server: { entry: "server" },
     prerender: {
       enabled: true,
