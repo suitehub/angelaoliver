@@ -35,23 +35,16 @@ jobs:
       - name: Prepare GitHub Pages artifact
         run: |
           OUT=".output/public"
-          if [ -d "dist/client" ]; then
-            rm -rf "$OUT"
-            mkdir -p "$OUT"
-            cp -r dist/client/* "$OUT/"
+          if [ -d "$OUT/angelaoliver" ]; then
+            cp -r "$OUT/angelaoliver/"* "$OUT/"
+            rm -rf "$OUT/angelaoliver"
+          fi
+          if [ -f "$OUT/index.html" ] && [ ! -f "$OUT/404.html" ]; then
+            cp "$OUT/index.html" "$OUT/404.html"
           fi
           if [ ! -f "$OUT/index.html" ]; then
-            node -e "
-              const fs=require('fs'); const p='$OUT/assets';
-              const files=fs.existsSync(p)?fs.readdirSync(p):[];
-              const css=files.filter(f=>f.endsWith('.css')).map(f=>'<link rel=\"stylesheet\" href=\"/angelaoliver/assets/'+f+'\">').join('\n');
-              const js=files.filter(f=>f.endsWith('.js')).map(f=>'<script type=\"module\" src=\"/angelaoliver/assets/'+f+'\"></script>').join('\n');
-              const html='<!doctype html><html lang=\"pt-BR\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/><title>Angela Oliver</title><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&display=swap\">'+css+'</head><body><div id=\"root\"></div>'+js+'</body></html>';
-              fs.writeFileSync('$OUT/index.html', html);
-            "
+            echo "No index.html generated"; find .output -maxdepth 4 -type f | head -30; exit 1
           fi
-          cp "$OUT/index.html" "$OUT/404.html"
-          test -f "$OUT/index.html"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

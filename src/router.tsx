@@ -6,7 +6,10 @@ export const getRouter = () => {
   // One client per request: a module-level QueryClient leaks cached data between SSR requests.
   const queryClient = new QueryClient();
 
-  const basepath = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
+  const basepath =
+    typeof window !== "undefined"
+      ? import.meta.env.BASE_URL.replace(/\/$/, "") || "/"
+      : "/";
 
   const router = createRouter({
     routeTree,
