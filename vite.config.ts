@@ -17,13 +17,17 @@ export default defineConfig({
     preset: "static",
   },
   tanstackStart: {
+    router: {
+      basepath: "/angelaoliver",
+    },
+    pages: [{ path: "/angelaoliver/" }],
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
     prerender: {
       enabled: true,
       crawlLinks: true,
-      pages: ["/angelaoliver/"],
+      autoStaticPathsDiscovery: false,
       filter: ({ path }) => path.startsWith("/angelaoliver"),
     },
   },
